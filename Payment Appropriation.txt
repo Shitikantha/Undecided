@@ -1,0 +1,16 @@
+Payment appropriation definition will have the rules to apply funds to various financials when payment is received. A Payment Appropriation Plan can be defined with or without a payment due status depending on the payment appropriation method. The following parameters are included as a part of the payment appropriation:
+
+Payment Application Method: The payments received can be applied to satisfy the oldest bills to the latest or satisfy a component of all outstanding bills and then move to the next component or a combination where the components of old bills will be satisfied for Overdue bills whereas the due and current bills are satisfied by  bill.
+Payment Due Status: The status determines whether the payment is Overdue, due, current, or advance. Valid Payment Due statuses would be defined at the FE level and would be derived based on the below logic.
+
+Overdue	- More than one bill is overdue (Scheduled Last Due Date > < Next Due Date)
+Due - One bill is overdue (Scheduled Last Due Date = Next Due Date)
+Current - No bills are overdue (Scheduled Next Due Date = Next Due Date)
+Advance - Paid ahead bills generated (Scheduled Next Due Date < < Next Due Date
+
+Note: User can define payment appropriation method without status as well. This means, same payment application order would be applied across all the statuses.
+The payment application method (By Balance or By Bill) and the payment application order will be assigned to each due status. The payment application order determines the order in which each bill components will be satisfied. If the payment application order is defined as interest, principal, late charge, and fee, then the incoming payment is applied to the components in the above defined order for each bill record if the application method is by bill. Similarly, if the application method is by balance, then the payment is applied in the above order across the bills.
+
+All approved payment appropriation definitions can be made available to a product. For the relationship to exist between the payment appropriation definition and the loan product, the loan product should be in in-process status. If more than one payment appropriation definition is related to a loan product, then one of the payment appropriation definitions should be a default. If a user doesn't want an appropriation method to be offered any longer to a customer going forward, then they can lock that definition. However, user is restricted from locking a default payment appropriation definition. System shall check, while relating the payment appropriation definition, that, apart from principal and interest (which will always be there in an application order), application order is defined for all such balances (corresponding to various charge instructions) wherever “include in payoff” flag is marked as yes. This flag is available at the charge instruction as an additional attribute.
+If the Non-accrual/charge-off Shadow Accounting condition is Yes but the shadow payment appropriation is not configured, the product activation will fail. The user needs to configure the shadow payment appropriation and then activate the product.
+
