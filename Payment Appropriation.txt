@@ -1,0 +1,162 @@
+Payment appropriation definition :Payment appropriation definition will have the rules to apply funds to various financials when payment is received. A Payment Appropriation Plan can be defined with or without a payment due status depending on the payment appropriation method. The following parameters are included as a part of the payment appropriation.
+
+Payment Application Method: The payments received can be applied to satisfy the oldest bills to the latest or satisfy a component of all outstanding bills and then move to the next component or a combination where the components of old bills will be satisfied for Overdue bills whereas the due and current bills are satisfied by  bill.
+
+Payment Due Status: The status determines whether the payment is Overdue, due, current, or advance. Valid Payment Due statuses would be defined at the FE level and would be derived based on the below logic.
+
+Overdue	: More than one bill is overdue (Scheduled Last Due Date > < Next Due Date)
+Due - One bill is overdue (Scheduled Last Due Date = Next Due Date)
+Current - No bills are overdue (Scheduled Next Due Date = Next Due Date)
+Advance - Paid ahead bills generated (Scheduled Next Due Date < < Next Due Date
+
+Note: User can define payment appropriation method without status as well. This means, same payment application order would be applied across all the statuses.
+The payment application method (By Balance or By Bill) and the payment application order will be assigned to each due status. The payment application order determines the order in which each bill components will be satisfied. If the payment application order is defined as interest, principal, late charge, and fee, then the incoming payment is applied to the components in the above defined order for each bill record if the application method is by bill. Similarly, if the application method is by balance, then the payment is applied in the above order across the bills.
+
+All approved payment appropriation definitions can be made available to a product. For the relationship to exist between the payment appropriation definition and the loan product, the loan product should be in in-process status. If more than one payment appropriation definition is related to a loan product, then one of the payment appropriation definitions should be a default. If a user doesn't want an appropriation method to be offered any longer to a customer going forward, then they can lock that definition. However, user is restricted from locking a default payment appropriation definition. System shall check, while relating the payment appropriation definition, that, apart from principal and interest (which will always be there in an application order), application order is defined for all such balances (corresponding to various charge instructions) wherever “include in payoff” flag is marked as yes. This flag is available at the charge instruction as an additional attribute.
+If the Non-accrual/charge-off Shadow Accounting condition is Yes but the shadow payment appropriation is not configured, the product activation will fail. The user needs to configure the shadow payment appropriation and then activate the product.
+
+
+Under the fast path account boarding, lending user initiates the arrangement onboarding by selecting product type and loan type, the system prompts the user whether to proceed with Fast Path Account Boarding.  If the user selects “Yes”, then fast path account boarding screen opens.
+In the Fast Path Account Boarding, the system supports recording data under the heads - Basic Details, Role, Disbursement, Payment, and Relationship Manager. The Fields under this are either defaulted or user Input.  For the user input fields, the drop down is provided wherever required and for the other fields the user can type in the values. Once the field values are recorded, the user clicks on the "Board Account" button to initiate the arrangement creation. System performs the field level data validation. System checks whether all the mandatory fields (highlighted with * mark) are input, if not, it prompts the user to take necessary actions.  Once the validations are complete, system generates the arrangement number.
+
+Arrangement onboarding – Data input fields
+The following arrangement details needs to be provided to create a loan. Some of these parameters are default from the product and can be modified at the account level.
+
+Basic Details:
+The basic details of a loan account include the product code, the date when an arrangement is effective which can be a date in the past or current system date, Nick Name assigned to the arrangement, Branch where the loan is originated and serviced, currency of the account, Contractual amount, Account title, Term type & value. Product Code: This is a drop-down field where all active loan products, based on the product type (LOC & Installment Loan) and loan type (unsecured or secured installment loan based on the product type of installment loan), shall be displayed. User can select any one of the valid values. It is a required field. A capability to search based on product code and(or) product code is made available.
+
+Account Number: This is a user input field if the user chooses to have the account number not to be generated automatically. It’s an optional field.
+Effective Date: The date when the arrangement is effective.  The value of the current business date gets defaulted and is amendable. This value can be amended to a past or current. It is a required field.
+
+Nick Name: Nick name assigned to the arrangement. It is an optional field.
+
+Class Code: This is a user input field. It’s an optional field.
+
+Originating Branch: The branch where the arrangement is originated. It is a required field which to be selected from the valid value drop down list.
+
+Servicing Branch: This is a user input field assisted with a drop-down list of the available branches. The branch where the arrangement is serviced.  This can be same or different to the originating branch. By default, this will be same as the originating branch. However, user can modify the branch. This is a system defined attribute.
+
+Currency:  The value is defaulted as per the default currency maintained for the Term loan. User can change it to any other currency as available on selected loan product. This is a required field.
+
+Contractual Amount:  The value is defaulted with the amount maintained as default for the Term Loan.  The value is amendable. The approved loan amount for the customer should be within the Minimum and Maximum Loan Amount defined at the product level. The approval of the requested loan amount will be handled by the originating system after detailed analysis of the loan application and the credit risk. This amount range and the default value can be a different value depending on the selected arrangement currency. This is a required field.
+
+Financed Charges: The aggregated value of all the financed charges (including financed insurance) which is assessed and financed during funding on the loan account. This is a system defined attribute. This is an optional field. If there are financed fees available in the loan product, then system will automatically calculate the value. If user provides a value, then system will validate this value against the system calculated value during arrangement activation and display an error to prompt user to make changes to the input value.
+
+Original Proceeds: This is a calculated value of difference between contractual amount and financed charges. This is a system defined attribute. This is an optional field. If user provides a value, then system will validate this value against the system calculated value during arrangement activation and display an error to prompt user to make changes to the input value.
+
+Account Title:  This is a user input field. This is an optional field.
+Term Type:  Valid values are available in the drop down. Valid values are based on unit of measurement available on the selected loan product. This is a required field.
+1.	Months
+2.	Years
+
+Term Value: This is a user input field. and a required field.
+Defining the loan term can be in months or years. The loan maturity date is arrived at based on effective date, loan term and repayment frequency. Examples of valid arrangement terms: 
+•	5 Years
+•	1 Year
+•	30 Years
+•	60 Months
+When an arrangement is getting onboarded, system will validate the loan term which can be in months or years with the minimum and maximum of loan term set in a unit of measurement against the value set in that unit.
+
+Collateral Type: This is a user input field assisted with a drop-down list of the applicable Collateral Types for an arrangement. For Example: Auto, ATV, Boats, Camper, and Motorcycle. This is applicable for secured loans only. This is an optional field applicable only for secured installment loan.
+
+Collateral Code: This is a user input field assisted with a drop-down list of the applicable Collateral Codes. For Example: New and Old. This is applicable for secured loans only. This is an optinal field.
+
+Risk Rating: Current risk rating or loan grade on the loan.
+
+Risk Rating Date: Date of last risk rating update.
+
+Legacy Account Number: The account number from legacy system. Applicable for converted loans.
+
+State Name: Indicates the State where the arrangement is been serviced.
+
+Purpose Code: This is a user input field assisted with drop down list of all the purpose codes for example – Home, Construction, Home Purchase, Home Improvement, Mobile, Consumer Goods, Education, Auto, Personal. This is used for reporting.
+
+Management Class: This is a user input field assisted with the values of Management class. For example – Other Loans, Installment Loans.
+
+Role: The relationship (of type borrower) between an arrangement and the involved party is default from the product. There is an ability to define multiple ownership patterns for an arrangement such as single, joint, or severally. However, there should be at least one relationship established to create a loan arrangement. 
+The role type identifies whether the involved party is primary or secondary on the arrangement. There can be only one Primary role type on the arrangement at a time and Primary is a mandatory role type on an arrangement. Multiple Secondary role types are allowed. The number of secondary borrowers allowed on an account is based on the configuration at the product level.
+System allows to define the percentage of liability shared by the roles. Sum of role percentage share of all related involved parties should be 100%. A 0% for a Primary or Secondary is not allowed.
+Customer Name: This is the name of the borrower for whom the arrangement is being onboarded.
+
+Customer Number/Involved Party Identifier: This is the identifier for the borrower who for whom the arrangement is being onboarded. The other involved parties like co borrowers or guarantors need to be identified by an Involved Party Identifier.
+
+Role Type: The customer to arrangement relationship type can be either Primary or Secondary. System allows to define only one primary role.
+
+Role Percentage: In an arrangement where there is only one primary role, then system assigns 100%. If more than one assignee is declared for a role type, then the total percentage of all to be hundred. The percentage represent the share of liability.
+
+Disbursement: System allows adding arrangement to arrangement relationship for disbursement. Based on the configuration, the loan will be disbursed to the related account. The related account can be an account internal to the bank or an account external to the bank. External accounts associated with the borrower in EC are eligible for auto disbursement or payment. Registering a new external arrangement as a part of the loan arrangement creation is subject to the SOR being provided for relationship type “Disbursement Account” and disbursement method being external. If processor and application name is External and disbursement method is external, then lending will not make a call to EC to validate the external account and store the external account details on its side itself.
+
+Automatic Disbursement Allowed: The value is defaulted from product and in case Automatic Disbursement is Allowed on the product, then user can amend the value to “No”. This indicates whether automatic disbursement is allowed on the loan. If auto disbursement is enabled, system will automatically disburse loan amount on specified dates. If auto disbursement is set to “NO”, then user must manually process the disbursement using MBPAPI_POST_LoanAccount_MonetaryTransaction_V1.0 REST Service.
+
+Funded During Organization: This is a user input field assisted by a toggle bar. This field signifies whether disbursement is already processed by the origination system. This value will be sent to MBP lending by origination system to indicate whether disbursement is already processed or not. If the value received by MBP lending is YES, then lending system will just fund the loan account and do not post disbursement. It is expected that reconciliation will be done between origination system and servicing system. If the value received by MBP lending is NO, then lending system will post disbursement as per the disbursement details send by the origination system.
+
+Disbursement Method: User can select one of the valid disbursement methods.
+
+Disbursement Date: This is the actual disbursement date, and the current business date is defaulted. The Date on which the loan account fund is available for the customer.  The disbursement date will always be a current system date. This is applicable only when the arrangement is set for auto disbursement.
+
+Target Account: The arrangement number to which the disbursement proceeds are credited.  This can be either an external or an internal account. 
+ 
+Add Account: The user can search the arrangement number using a customer search
+
+Payment: System allows adding arrangement to arrangement relationship for relationship type “Repayment Account”. Based on the configuration, the loan payment will be collected from related account. The related account can be an account internal to the bank or an account external to the bank. External accounts associated with the borrower in EC are eligible for payment. Registering a new external arrangement as a part of the loan arrangement creation is subject to the SOR being provided for relationship type “Repayment Account” and payment method being external. If processor and application name is External and payment method is external, then lending will not make a call to EC to validate the external account and store the external account details on its side itself.
+
+Payment Frequency: This is a user input field guided by a drop-down list which is made available as part of the product maintenance. The frequency at which the payments should be scheduled. The Payment Frequency Type defined at the Product level should default.
+Examples for Payment values:
+1.	Months Between
+2.	Weeks Between
+3.	Every 3 Month
+4.	Every Month
+5.	End of Every Quarter
+6.	End of Every Month
+The value for the of the payment frequency identifies the date of repayment.
+
+Payment Day: The day on which the payment is to be credited.
+
+Date of First Payment: User can define the date of first payment for the repayment schedules to be simulated as per the date of first payment. Date of first payment will work in conjunction with the repayment frequency type and(or) value. If the repayment frequency is defined as “End of Every Month”, then possible date of first payment must be end of any of the month (considering the maximum/minimum days to first payment). If the repayment frequency is “Every Month-X”, then all the repayment scheduled shall be build based on this including the date of first payment. For e.g.: if the loan effective date is 23-Nov-27 and user provides the repayment frequency as “Every Month-10”, then the first payment date must be 10th day of any of the following month (considering the maximum/minimum days to first payment). If user provides 12/15/2027 as the date of first payment, system shall display an appropriate error. If the repayment frequency is “Months Between-1”, then all the repayment scheduled shall be build based on this including the date of first payment. For e.g.: if the loan effective date is 23-Nov-27 and user provides the repayment frequency as “Months Between-1”, then the first payment date must be 12/23/2027(considering the maximum/minimum days to first payment). If user provides 01/23/2028 as the date of first payment, system shall display an appropriate error. 
+
+Automatic Payment Allowed: The default value as per the product shall be populated.  This indicates whether the account will process the payments of the bill automatically.  If no, then the payment must be processed manually. If the payment method is check, then automatic payment cannot be YES.
+
+Over Payment Maturity Recalculation: Valid values are available in drop-down list. This field whether regular payment amount or term shall be recalculated when there is an excess payment on the loan account subject to repayment modification evaluation if applicable. If the value of this field is “Take No Action”, then system will not take any action to re-amortize the installment loan to either charge the payment amount or change the term.
+
+Payment Type: This field is defaulted based on the product selected. This is not amendable. While creating a P&I installment arrangement, system retrieved the payment type from the billing schedule definition which is related to the loan product and defaults on the arrangement.  
+For example: 
+1.	Assume, Billing Schedule Definition Code "P&I Principal and Projected Interest" is configured in the system with following features:
+a.	Payment Type: P&I
+b.	Billing Option: System Calculated
+c.	Payment Calculation Option: Principal and Projected Interest or Principal and Accrued Interest
+2.	This Billing Schedule Definition is related to the loan product "USECLNPROD"
+3.	An arrangement is created for this loan product.
+Expectation is that system shall retrieve the details of the billing schedule definition which is defaulted on the loan account. System shall check the payment type defaulted on the arrangement and when payment type is "P&I".
+
+User Defined Flat Amount: User defined flat amount is a user input installment amount based on which the repayment schedules are to be build.  The repayment schedules would be built based on the user defined flat amount and any deficit/surplus would be handled in the final schedule.
+
+There  will be a validation for final payment amount during arrangement creation, renewal, and life of the loan if the condition amortization tolerance is defined for the product. Final payment amount derived in case of user defined flat amount should be between (System calculated final payment amount when user defined flat amount is not provided-Amortization tolerance) and (System calculated final payment amount when user defined flat amount is not provided +Amortization tolerance) 
+
+Payment Method: The user can specify the payment method as to whether it is from an internal account, external account or via a cheque.
+
+Add Account: The user can search the arrangement number using a customer search
+
+Relationship Manager: A Relationship Manager or a loan officer can be associated with an arrangement. Multiple Relationship Managers can also be assigned to an arrangement. However, the relationship types (primary and secondary) determine the officer to be contacted.  The Relationship Manager is identified by a Relationship Manager Code.
+   
+Search Manager: This is a user input field guided with a drop-down list with values of all the list of Relationship Managers. A unique identifier for the employee identifies the Relationship Manager.
+
+Role: This is a user input field guided by a drop-down list with values – Primary Officer & Secondary Officer.
+
+Preferred: The value is defaulted as “No” and is amendable to “Yes”.
+
+Alternate Contact: This is a user input field
+
+After completing the data input for the above fields, the user can trigger arrangement creation where in system will do all the necessary validations and on successful completion of the validations, an arrangement number is generated.  
+
+
+Billing Schedule Definition is configured to achieve the features of how a system shall be billing, what are the components that shall be going in the bill and how much shall get billed. Following are the components of a billing schedule definition configuration:
+
+Payment Type: This is defined as two possible values: Principal and Interest(Amortized Loans), Principal Plus Interest(Non-Amortized Loans)
+Payment Calculation Option: Depending on the selected Payment Type, user can configure any of the possible payment calculation options. Payment Calculation Options are used to determine interest is determined while a bill record is processed
+
+Principal and Accrued Interest - A Bill would be generated with installment amount. There shall be no split on the bill between principal and interest. Used for P&I Loans. Due Interest determination is payment date to payment date for these loans. System shall not allow to define bill components for this payment calculation option.
+Principal and Projected Interest - A Bill would be generated with Principal and Interest split on the bill. Used for P&I loans. Due Interest determination is bill due date to bill due date for these loans. System shall prompt the user to define bill components for this payment calculation option. Bill components for interest and principal is mandatory to be defined.
+Fixed Principal and Projected Interest - A bill would be generated with a fixed principal amount (either user defined, or system calculated). Used for P+I loan. Due Interest determination is bill due date to bill due date for these loans.
+Interest Only - A Bill would be generated with interest only till the penultimate schedule. Total Principal Outstanding on the loan account would be billed as part of the maturity bill along with the interest portion. Used for P+I loan. Due Interest determination is bill due date to bill due date for these loans.
+Principal Only - A Bill would be generated with principal portion (system calculated, or user defined) only till the penultimate schedule. Interest accrued for the term would be billed as part of the maturity bill along with the principal portion. Used for P+I loan
+
