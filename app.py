@@ -29,16 +29,16 @@ def get_text_chunks(text):
 
 def get_vectorstore(text_chunks):
     #embeddings = OpenAIEmbeddings()
-    print("Entering get_vectorstore")
+    print(" Creating Vectorstore")
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
-    print("Completed vectorstore")
+    print("Vectorstore created")
     return vectorstore
 
 def get_conversation_chain(vectorstore):
-    print("Entering get_conversation_chain")
+    print("Forming conversation chain")
     #llm = ChatOpenAI()
-    llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
+    llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.9, "max_length":512})
 
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True)
@@ -47,22 +47,27 @@ def get_conversation_chain(vectorstore):
         retriever=vectorstore.as_retriever(),
         memory=memory
     )
-    print("Exiting get_conversation_chain")
-
+    print("Conversation chain Completed")
+    print("Ready to answer the question")
     return conversation_chain
+
+#def reversedEnumerate(l):
+#        return zip(range(len(l)-1, -1, -1), l)
 
 def handle_userinput(user_question):
     response = st.session_state.conversation({'question': user_question})
     st.session_state.chat_history = response['chat_history']
 
+    st.session_state.chat_history=(st.session_state.chat_history[::-1])
     for i, message in enumerate(st.session_state.chat_history):
+        print(message)
         if i % 2 == 0:
-            st.write(user_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
-        else:
             st.write(bot_template.replace(
                 "{{MSG}}", message.content), unsafe_allow_html=True)
-
+        else:
+            st.write(user_template.replace(
+                "{{MSG}}", message.content), unsafe_allow_html=True)
+    print("Ready to answer the next question")
 
 def main():
     load_dotenv()
