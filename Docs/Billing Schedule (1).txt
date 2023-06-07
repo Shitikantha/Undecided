@@ -1,0 +1,24 @@
+Bill Schedule Definition:
+Bill Schedule Definition is configured to achieve the features of how a system shall be billing, what are the components that shall be going in the bill and how much shall get billed. Following are the 2 components of a billing schedule definition configuration:
+
+Payment Type:
+Payment Type can be defined in 2 ways.
+Principal and Interest - This is applicable for Amortized Loans
+Principal Plus Interest - This is applicable for Non-Amortized Loans
+
+Payment Calculation Option: 
+Depending on the selected Payment Type, user can configure any of the possible payment calculation options. Payment Calculation Options are used to determine interest is determined while a bill record is processed
+
+Given below are the types of bill schedule configuration
+
+Principal and Accrued Interest:
+A Bill would be generated with installment amount. There shall be no split on the bill between principal and interest. Used for P&I Loans. Due Interest determination is payment date to payment date for these loans. System shall not allow to define bill components for this payment calculation option.
+Principal and Projected Interest:
+A Bill would be generated with Principal and Interest split on the bill. Used for P&I loans. Due Interest determination is bill due date to bill due date for these loans. System shall prompt the user to define bill components for this payment calculation option. Bill components for interest and principal is mandatory to be defined.
+Fixed Principal and Projected Interest:
+A bill would be generated with a fixed principal amount (either user defined, or system calculated). Used for P+I loan. Due Interest determination is bill due date to bill due date for these loans.
+Interest Only:
+A Bill would be generated with interest only till the penultimate schedule. Total Principal Outstanding on the loan account would be billed as part of the maturity bill along with the interest portion. Used for P+I loan. Due Interest determination is bill due date to bill due date for these loans.
+Principal Only:
+A Bill would be generated with principal portion (system calculated, or user defined) only till the penultimate schedule. Interest accrued for the term would be billed as part of the maturity bill along with the principal portion. Used for P+I loan
+
