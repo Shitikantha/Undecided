@@ -1,0 +1,34 @@
+Payment Appropriation
+Payment appropriation definition will have the rules to apply funds to various financials when payment is received. Payment appropriation method is derived based on the 2 configurations Payment Application Method and Payment Due Status.
+Payment Application Method
+Payment application method determines the criteria to apply the payment amount towards the unpaid bills of a loan account. The payments received can be applied to satisfy the oldest bills to the latest or satisfy a component of all outstanding bills and then move to the next component or a combination where the components of old bills will be satisfied for Overdue bills whereas the due and current bills are satisfied by bill.
+Payment Due Status
+Payment due status determines whether the payment is Overdue, due, current, or advance. Given below are the valid payment due statuses for a loan account.
+1.    Overdue - More than one bill is overdue (Scheduled Last Due Date > < Next Due Date)
+2.    Due - One bill is overdue (Scheduled Last Due Date = Next Due Date)
+3.    Current - No bills are overdue (Scheduled Next Due Date = Next Due Date)
+4.    Advance - Paid ahead bills generated (Scheduled Next Due Date < < Next Due Date
+
+ 
+
+Bill Schedule Definition
+Bill Schedule Definition is configured to achieve the features of how a system shall be billing and determine the components that shall be going in the bill and how much shall get billed. Bill Schedule Definition is determined based on the 2 components Payment Type and Payment Calculation Option.
+
+ 
+
+Payment Type
+Payment type determines the components that should be part of a bill and it can be defined in 2 ways. Principal and Interest (This is applicable for Amortized Loans) and Principal Plus Interest (This is applicable for Non-Amortized Loans).
+
+ 
+
+Payment Calculation Option
+Payment Calculation option determines how the interest component is calculated while generating a bill.
+
+ 
+
+Given below are the types of bill schedule configuration.
+1.    Principal and Accrued Interest - Bill would be generated with installment amount. There shall be no split on the bill between principal and interest. Used for P&I Loans. Due Interest determination is payment date to payment date for these loans. System shall not allow to define bill components for this payment calculation option.
+2.    Principal and Projected Interest - A Bill would be generated with Principal and Interest split on the bill. Used for P&I loans. Due Interest determination is bill due date to bill due date for these loans. System shall prompt the user to define bill components for this payment calculation option. Bill components for interest and principal is mandatory to be defined.
+3.    Fixed Principal and Projected Interest - A bill would be generated with a fixed principal amount (either user defined, or system calculated). Used for P+I loan. Due Interest determination is bill due date to bill due date for these loans.
+4.    Interest Only - A Bill would be generated with interest only till the penultimate schedule. Total Principal Outstanding on the loan account would be billed as part of the maturity bill along with the interest portion. Used for P+I loan. Due Interest determination is bill due date to bill due date for these loans.
+5.    Principal Only - A Bill would be generated with principal portion (system calculated, or user defined) only till the penultimate schedule. Interest accrued for the term would be billed as part of the maturity bill along with the principal portion. Used for P+I loan
